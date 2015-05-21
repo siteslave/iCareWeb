@@ -1,0 +1,15 @@
+div(flex-container="row", flex-gutter="24")
+    div(flex-item="9")
+        .card(class="p+")
+            | ffdfdsfdsfdsfdsregdfdfdsffsdfsdf
+    div(flex-item="3").hide-on-mobile
+        .card
+            lx-tabs(indicator="indigo-500", active-tab="0", layout="inline")
+                lx-tab(heading="History", class="p+")
+                    div(style="max-height: 100px;", lx-scrollbar)
+                lx-tab(heading="Messages", class="p+")
+                    div(style="max-height: 200px;", lx-scrollbar)
+                 
+                div.card__actions
+                    button.btn.btn--m.btn--green.btn--flat(lx-ripple) Share
+                    button.btn.btn--m.btn--orange.btn--flat(lx-ripple) Post
