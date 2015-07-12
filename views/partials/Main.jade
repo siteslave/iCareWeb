@@ -1,15 +1,91 @@
-div(flex-container="row", flex-gutter="24")
-    div(flex-item="9")
-        .card(class="p+")
-            | ffdfdsfdsfdsfdsregdfdfdsffsdfsdf
-    div(flex-item="3").hide-on-mobile
-        .card
-            lx-tabs(indicator="indigo-500", active-tab="0", layout="inline")
-                lx-tab(heading="History", class="p+")
-                    div(style="max-height: 100px;", lx-scrollbar)
-                lx-tab(heading="Messages", class="p+")
-                    div(style="max-height: 200px;", lx-scrollbar)
-                 
-                div.card__actions
-                    button.btn.btn--m.btn--green.btn--flat(lx-ripple) Share
-                    button.btn.btn--m.btn--orange.btn--flat(lx-ripple) Post
+//- Main page
+div(flex-container="row")
+  div(flex-item)
+    #progress
+div.padding-bottom-8
+div(flex-container="row", flex-gutter="8", class="padding-bottom-8")
+  //div(flex-item="8")
+  //  highchart(config='chartConfig3', style="height: 300px;")
+  div(flex-item="4")
+    highchart(config='chartConfig0', style="height: 250px;")
+  div(flex-item="4")
+    highchart(config='chartConfig0', style="height: 250px;")
+  div(flex-item="4")
+    highchart(config='chartConfig0', style="height: 250px;")
+  //div(flex-item="4")
+  //  highchart(config='chartConfig1', style="height: 450px;")
+div(flex-container="row", class="padding-bottom-8")
+  div(flex-item, class="card p+")
+    div(flex-container="row", flex-gutter="8")
+      div(flex-item="4")
+        lx-select(ng-model="selectedType", change="setData.setType(data)", placeholder="ประเภท...", choices="types", floating-label)
+          lx-select-selected {{ $selected.type_name }}
+          lx-select-choices {{ $choice.type_name }}
+      div(flex-item="8")
+        lx-select(ng-model="selectedCategory", change="setData.setCategory(data)", placeholder="เลือกกลุ่มตัวชี้วัด...", choices="categories", floating-label)
+          lx-select-selected {{ $selected.category_name }}
+          lx-select-choices {{ $choice.category_name }}
+      //div(flex-item="2")
+      //  lx-select(ng-model="selectedProvince", change="setData.setProvince(data)", placeholder="จังหวัด...", choices="provinces", floating-label)
+      //    lx-select-selected {{ $selected.prov_name }}
+      //    lx-select-choices {{ $choice.prov_name }}
+      //div(flex-item="2")
+      //  lx-select(ng-model="selectedYear", change="setData.setYear(data)", placeholder="ปีงบประมาณ...", choices="years", floating-label)
+      //    lx-select-selected {{ $selected.year_name }}
+      //    lx-select-choices {{ $choice.year_name }}
+      //div(flex-item="1")
+      //  br
+      //  button.btn.btn--m.btn--green.btn--raised(lx-ripple, ng-click="getKpi()") แสดง
+div(flex-container="row", flex-gutter="8")
+  div(flex-item)
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+            span.tc-black-2.fs-title {{ filters.category.category_name }} ({{ items.length | number }})
+          .data-table-header__actions
+            lx-search-filter(model='query', filter-width='100%', placeholder="ค้นหาข้อมูลตัวชี้วัด...")
+        table.data-table
+          thead
+            tr.data-table__selectable-row
+              th
+              th(width="10%") รหัส
+              th(width="50%") ตัวชี้วัด
+              th(width="15%") เป้าหมาย (%)
+              //th(width="15%") ผลงาน
+              th(width="15%") ผลงาน (%)
+              th(width="10%") #
+          tbody
+            tr(ng-if="items.length == 0")
+              td(colspan="7")
+                span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...
+            tr(ng-repeat="item in items | filter: query", ng-if="items.length > 0")
+              td(ng-if="(item.result * 100 / item.target) >= item.pass_score")
+                i.icon.icon--s.icon--green.icon--flat.mdi.mdi-crosshairs-gps
+              td(ng-if="(item.result * 100 / item.target) < item.pass_score || !item.result || !item.target")
+                i.icon.icon--s.icon--red.icon--flat.mdi.mdi-crosshairs
+              td(width="10%")
+                span {{ item.number_id }}
+              td(width="50%")
+                span {{ item.item_name }}
+              td(width="15%")
+                span {{ item.pass_score | number }}
+              //td(width="15%")
+              //  span {{ item.result | number }}
+              td(width="15%")
+                span {{ (item.result * 100 / item.target) | number: 2 }}
+              td(width="10%")
+                lx-dropdown(position='right', from-top='')
+                  button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
+                    i.mdi.mdi-dots-vertical
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a.dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-printer
+                          span ข้อมูลรายจังหวัด
+                      li(ng-if="item.item_type == '1'")
+                        a.dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-map
+                          span ข้อมูลรายหน่วยบริการ

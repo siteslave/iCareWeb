@@ -1,83 +1,57 @@
 doctype html
 html(ng-app="app")
-    head
-        title= title
-   
-        script(src="/vendor/jquery/dist/jquery.js")
-        script(src="/vendor/velocity/velocity.js")
-        script(src="/vendor/moment/min/moment-with-locales.js")
-        script(src="/vendor/angular/angular.js")
-        script(src="/vendor/angular-route/angular-route.js")
-        script(src="/vendor/lodash/lodash.min.js")
-        script(src="/vendor/lumx/dist/lumx.js")
-        script(src="/vendor/highcharts/highcharts.src.js")
-        script(src="/vendor/highcharts/highcharts-more.js")
-        script(src="/vendor/highcharts/modules/solid-gauge.js")
-        script(src="/vendor/highcharts-ng/dist/highcharts-ng.js")
-        script(src="/javascripts/app.js")
-        script(src="/javascripts/routers.js")
-        
-        block scripts
-    
-        link(rel="stylesheet", href="/vendor/lumx/dist/lumx.css")
-        link(rel="stylesheet", href="/vendor/mdi/css/materialdesignicons.css")
-        link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700")
-        link(rel='stylesheet', href='/stylesheets/style.css')
-    body
-        .toolbar.bgc-indigo-500
-            .toolbar__left(class="mr+++")
-                a(href="/").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="หน้าหลัก", tooltip-position="right")
-                    i.mdi.mdi-windows
-          
-            span.toolbar__label.tc-white.fs-title KPI Cockpit
-            .toolbar__right
-                lx-search-filter(closed, theme="dark", position="right", 
-                placeholder="ค้นหา...", 
-                lx-tooltip="ค้นหา KPI", 
-                tooltip-position="bottom")
-                                    
-                lx-dropdown(position="right", from-top)
-                    button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dropdown-toggle, 
-                    lx-tooltip="รายงานตัวชี้วัด", tooltip-position="bottom")
-                        i.mdi.mdi-monitor-multiple
-                    lx-dropdown-menu
-                        ul
-                            li
-                                a.dropdown-link 
-                                    i.mdi.mdi-television-guide
-                                    | &nbsp; ตัวชี้วัดระดับจังหวัด   
-                            li
-                                a.dropdown-link 
-                                    i.mdi.mdi-theater
-                                    | &nbsp; ตัวชี้วัดระดับเขต
-                            li
-                                a.dropdown-link
-                                    i.mdi.mdi-poll-box
-                                    | &nbsp; ตัวชี้วัดระดับกระทรวง    
-                button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="ออกจากระบบ", tooltip-position="bottom")
-                    i.mdi.mdi-launch
-       
-                lx-dropdown(position="right", from-top)
-                    button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dropdown-toggle, 
-                    lx-tooltip="ตั้งค่าการใช้งาน", 
-                    tooltip-position="left")
-                        i.mdi.mdi-settings
-          
-                    lx-dropdown-menu
-                        ul
-                            li
-                                span.dropdown-link.dropdown-link--is-header Tools
-                            li
-                                a(ui-sref="main.upload").dropdown-link อัปโหลดไฟล์
-                            li
-                                span.dropdown-link.dropdown-link--is-header ตัังค่าระบบ
-                            li
-                                a.dropdown-link ข้อมูลส่วนตัว
-                            li
-                                a.dropdown-link เปลี่ยนรหัสผ่าน
-                            li.dropdown-divider
-                            li
-                                a.dropdown-link ตั้งค่าเขตรับผิดชอบ
-        .container
-            block content
-            
+  head
+    title= title
+    script(src="/vendor/jquery/dist/jquery.js")
+    script(src="/vendor/velocity/velocity.js")
+    script(src="/vendor/moment/min/moment-with-locales.js")
+    script(src="/vendor/angular/angular.js")
+    script(src="/vendor/angular-ui-router/release/angular-ui-router.min.js")
+    script(src="/vendor/lodash/lodash.min.js")
+    script(src="/vendor/lumx/dist/lumx.js")
+    script(src="/vendor/highcharts/highcharts.src.js")
+    script(src="/vendor/highcharts/highcharts-more.js")
+    script(src="/vendor/highcharts/modules/solid-gauge.js")
+    script(src="/vendor/highcharts-ng/dist/highcharts-ng.js")
+    script(src="/javascripts/app.js")
+    block scripts
+
+    link(rel="stylesheet", href="/vendor/lumx/dist/lumx.css")
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    .toolbar.bgc-indigo-500
+      .toolbar__left(class="mr+++")
+        a(href="/").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="หน้าหลัก", tooltip-position="right")
+          i.mdi.mdi-windows
+      span.toolbar__label.tc-white.fs-title KPI Cockpit
+      .toolbar__right
+        lx-search-filter(closed, theme="dark", position="right",
+        placeholder="ค้นหา...",
+        lx-tooltip="ค้นหา KPI",
+        tooltip-position="bottom")
+
+        button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="ออกจากระบบ", tooltip-position="bottom")
+          i.mdi.mdi-launch
+        lx-dropdown(position="right", from-top)
+          button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dropdown-toggle,
+          lx-tooltip="ตั้งค่าการใช้งาน",
+          tooltip-position="left")
+            i.mdi.mdi-settings
+          lx-dropdown-menu
+            ul
+              li
+                span.dropdown-link.dropdown-link--is-header Tools
+              li
+                a(ui-sref="main.upload").dropdown-link อัปโหลดไฟล์
+              li
+                span.dropdown-link.dropdown-link--is-header ตัังค่าระบบ
+              li
+                a.dropdown-link ข้อมูลส่วนตัว
+              li
+                a.dropdown-link เปลี่ยนรหัสผ่าน
+              li.dropdown-divider
+              li
+                a.dropdown-link ตั้งค่าเขตรับผิดชอบ
+    .container
+      block content

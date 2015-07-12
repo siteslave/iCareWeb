@@ -27,3 +27,18 @@ body {
   font-weight: 300;
   line-height: 1;
 }
+
+.padding-bottom-8 {
+  padding-bottom: 8px;
+}
+
+.lx-select {
+  margin-top: 20px;
+}
+
+.button-fab {
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  z-index: 30;
+}

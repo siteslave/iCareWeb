@@ -1,0 +1,40 @@
+extends ./layouts/Admin
+
+block scripts
+  script(src="/javascripts/admin/MainCtrl.js")
+  script(src="/javascripts/admin/MainServ.js")
+
+block content
+
+  div(flex-container="row", flex-gutter="8")
+    div(flex-item="3")
+      div(class="card p+")
+        span.fs-title.display-block.mb เมนูใช้งาน
+
+        .divider.divider--dark
+
+        ul(class="list mt++")
+          li.list-row.list-row--has-separator
+            .list-row__primary
+              i.icon.icon--s.icon--blue.icon--flat.mdi.mdi-desktop-mac
+
+            .list-row__content
+              h3: span.display-block รายการตัวชี้วัด
+              span.display-block.fs-body-1.tc-black-2 จัดการข้อมูลตัวชี้วัด
+          li.list-row.list-row--has-separator
+            .list-row__primary
+              i.icon.icon--s.icon--green.icon--flat.mdi.mdi-folder-multiple
+
+            .list-row__content
+              h3: span.display-block หมวดหมู่ตัวชี้วัด
+              span.display-block.fs-body-1.tc-black-2 จัดการหมวดหมู่ตัวชี้วัด
+          li.list-row.list-row--has-separator
+            .list-row__primary
+              i.icon.icon--s.icon--red.icon--flat.mdi.mdi-account-multiple-plus
+
+            .list-row__content
+              h3: span.display-block ข้อมูลผู้ใช้งาน
+              span.display-block.fs-body-1.tc-black-2 จัดการข้อมูลผู้ใช้งานในระบบ
+
+    div(flex-item="9")
+      ui-view

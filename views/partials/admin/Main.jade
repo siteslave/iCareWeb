@@ -1,0 +1,67 @@
+//- Main page
+div(flex-container="row")
+  div(flex-item)
+    #progress
+
+.fab.button-fab
+  button.fab__primary.btn.btn--xl.btn--red.btn--fab(ng-click="showMe()", lx-ripple, lx-tooltip="เพิ่มตัวชี้วัด", tooltip-position="left")
+    i.mdi.mdi-plus
+    i.mdi.mdi-open-in-new
+  //
+  //.fab__actions.fab__actions--up
+  //  button.btn.btn--l.btn--black.btn--fab(lx-ripple, lx-tooltip="เพิ่มตัวชี้วัด", tooltip-position="left")
+  //    i.mdi.mdi-plus
+
+div(flex-container="row", flex-gutter="8")
+  div(flex-item)
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+            span.tc-black-2.fs-title รายการตัวชี้วัด ({{ items.length | number }})
+          .data-table-header__actions
+            lx-search-filter(model='query', filter-width='100%', placeholder="ค้นหาข้อมูลตัวชี้วัด...")
+        table.data-table
+          thead
+            tr.data-table__selectable-row
+              th
+              th(width="10%") รหัส
+              th(width="50%") ตัวชี้วัด
+              th(width="10%") กระทรวง
+              th(width="10%") เขต
+              th(width="10%") จังหวัด
+              th(width="10%") #
+          tbody
+            tr(ng-if="items.length == 0")
+              td(colspan="7")
+                span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...
+            tr(ng-repeat="item in items | filter: query", ng-if="items.length > 0")
+              td(ng-if="item.item_status == 'Y'")
+                i.icon.icon--s.icon--green.icon--flat.mdi.mdi-checkbox-marked-outline
+              td(ng-if="item.item_status == 'N' || !item.item_status")
+                i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-checkbox-blank-outline
+              td(width="10%")
+                span {{ item.number_id }}
+              td(width="50%")
+                span {{ item.item_name }}
+              td(width="10%")
+                span {{ item.moph }}
+              td(width="10%")
+                span {{ item.region }}
+              td(width="10%")
+                span {{ item.province }}
+              td(width="10%")
+                lx-dropdown(position='right', from-top='')
+                  button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
+                    i.mdi.mdi-dots-vertical
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a.dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-pencil
+                          span แก้ไข/ดูรายละเอียด
+                      li
+                        a.dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-close
+                          span ลบรายการ

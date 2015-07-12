@@ -4,10 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session')
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 var partials = require('./routes/partials');
+var admin = require('./routes/admin');
+var users = require('./routes/users');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -23,42 +26,54 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use(session({
+  secret: 'SecretKey))))',
+  resave: false,
+  saveUninitialized: true
+}));
+
+var db = require('knex')({
+  client: 'mysql',
+  connection: {
+    host: 'localhost',
+    database: 'kpis',
+    user: 'kpis',
+    password: 'kpis',
+    charset: 'utf8'
+  },
+  pool: {
+    min: 10,
+    max: 100
+  }
+});
+
+
+var auth = function (req, res, next) {
+  if (req.session.username) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+};
+
+var checkAdmin = function (req, res, next) {
+  if (req.session.isAdmin) {
+    next();
+  } else {
+    res.redirect('/denied');
+  }
+};
+
+// Database middleware
+app.use(function (req, res, next) {
+  req.db = db;
+  next();
+});
+
+app.use('/api', api);
 app.use('/partials', partials);
+app.use('/users', auth, users);
+app.use('/admin', admin);
+app.use('/', routes);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-/*
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-*/
-// production error handler
-// no stacktraces leaked to user
-/*
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
-*/
 module.exports = app;

@@ -1,0 +1,30 @@
+doctype html
+html(ng-app="app")
+  head
+    title= title
+    script(src="/vendor/jquery/dist/jquery.js")
+    script(src="/vendor/velocity/velocity.js")
+    script(src="/vendor/moment/min/moment-with-locales.js")
+    script(src="/vendor/angular/angular.js")
+    script(src="/vendor/angular-ui-router/release/angular-ui-router.min.js")
+    script(src="/vendor/lodash/lodash.min.js")
+    script(src="/vendor/lumx/dist/lumx.js")
+    script(src="/javascripts/admin/adminApp.js")
+    block scripts
+
+    link(rel="stylesheet", href="/vendor/lumx/dist/lumx.css")
+    link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    .toolbar.bgc-indigo-500
+      .toolbar__left(class="mr+++")
+        a(href="/admin").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="หน้าหลัก", tooltip-position="right")
+          i.mdi.mdi-windows
+      span.toolbar__label.tc-white.fs-title KPI Cockpit (Admin)
+      .toolbar__right
+
+        button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="ออกจากระบบ", tooltip-position="bottom")
+          i.mdi.mdi-launch
+
+    .container
+      block content

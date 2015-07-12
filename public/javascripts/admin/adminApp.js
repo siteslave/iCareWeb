@@ -1,17 +1,18 @@
-// Main application module
+// Admin app
+
 angular.module('app', [
-  'lumx', 'ui.router', 'highcharts-ng',
-  'app.main.MainCtrl'
+  'lumx', 'ui.router',
+  'app.admin.MainCtrl'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/');
 
     $stateProvider
-      .state('main', {
+      .state('admin', {
         url: '/',
-        templateUrl: '/partials/main',
+        templateUrl: '/admin/partials/main',
         controller: 'MainCtrl'
-      });
-
+      })
   });
+

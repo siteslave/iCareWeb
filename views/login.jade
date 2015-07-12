@@ -1,0 +1,17 @@
+extends ./layouts/Login
+
+block content
+  br
+  div(flex-container="column", flex-align="space-between center", ng-controller="LoginCtrl")
+    form(name="frmLogin")
+      div(flex-item="6", style="width: 400px;", class="card p+")
+        .fs-title.display-block
+          i.mdi.mdi-account-key.icon.icon--l.icon--green.icon--circled
+          | &nbsp; เข้าสู่ระบบ (Login system)
+
+        lx-text-field(label="Username")
+          input(type="text", ng-model="username", ng-required="true")
+        lx-text-field(label="Password")
+          input(type="password", ng-model="password", ng-required="true")
+
+        button(ng-click="doLogin()", ng-disabled="frmLogin.$invalid").btn.btn--l.btn--green.btn--raised เข้าสู่ระบบ
