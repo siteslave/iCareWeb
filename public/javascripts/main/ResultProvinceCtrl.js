@@ -70,55 +70,10 @@ angular.module('app.main.ResultProvinceCtrl', ['app.main.MainServ'])
       loading: false
     };
 
-    $scope.chartConfig1 = {
-      options: {
-        chart: {
-          type: 'column'
-        }
-      },
-      series: [{
-        name: 'ผลงาน',
-        data: [10, 15, 12, 8]
-        //data: []
-      }],
-      title: {
-        text: 'ผลการดำเนินงานตัวชี้วัดรายหน่วยบริการ'
-      },
-      xAxis: {
-        categories: ['ร้อยเอ็ด', 'ขอนแก่น', 'มหาสารคาม', 'กาฬสินธุ์'],
-        //categories: [],
-        title: {
-          text: 'หน่วยบริการ'
-        }
-      },
-      tooltip: {
-        pointFormat: "{point.y:.2f}"
-      },
-      yAxis: {
-        max: 100,
-        title: {
-          text: 'ร้อยละ (%)'
-        },
-        plotLines: [{
-          value: 90,
-          color: 'red',
-          dashStyle: 'longdashdot',
-          width: 1,
-          label: {
-            text: 'เกณฑ์มาตรฐาน: 90%',
-            align: 'center',
-            style: {
-              color: 'gray'
-            }
-          }
-        }]
-      },
-      loading: false
-    };
-
     $scope.setChart = function (data) {
       $scope.chartConfig.title.text = $scope.kpi.item_name;
       $scope.chartConfig.yAxis.plotLines[0].value = $scope.kpi.pass_score;
+      $scope.chartConfig.yAxis.plotLines[0].label.text = 'เกณฑ์มาตรฐาน ' + $scope.kpi.pass_score + '%';
 
       angular.forEach (data, function (v) {
         var score = 0;
