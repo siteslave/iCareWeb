@@ -76,18 +76,21 @@ div(flex-container="row", flex-gutter="8")
               td(width="15%")
                 span {{ (item.result * 100 / item.target) | number: 2 }}
               td(width="10%")
-                lx-dropdown(position='right', from-top='')
-                  button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
-                    i.mdi.mdi-dots-vertical
-                  lx-dropdown-menu
-                    ul
-                      li
-                        a(href="#/report-province/{{item.number_id}}").dropdown-link.dropdown-link--is-large
-                          i.mdi.mdi-printer
-                          span ข้อมูลรายจังหวัด
-                      li.dropdown-divider
-                      li
-                        a.dropdown-link.dropdown-link--is-large
-                          i.mdi.mdi-pencil
-                          span ดูรายละเอียด
+                a(href="#/report-province/{{item.number_id}}", lx-ripple,
+                lx-tooltip="ดูข้อมูลรายจังหวัด", tooltip-position="left").btn.btn--l.btn--blue.btn--icon
+                  i.mdi.mdi-desktop-mac
+                //lx-dropdown(position='right', from-top='')
+                //  button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
+                //    i.mdi.mdi-dots-vertical
+                //  lx-dropdown-menu
+                //    ul
+                //      li
+                //        a(href="#/report-province/{{item.number_id}}").dropdown-link.dropdown-link--is-large
+                //          i.mdi.mdi-printer
+                //          span ข้อมูลรายจังหวัด
+                //      li.dropdown-divider
+                //      li
+                //        a.dropdown-link.dropdown-link--is-large
+                //          i.mdi.mdi-pencil
+                //          span ดูรายละเอียด
 

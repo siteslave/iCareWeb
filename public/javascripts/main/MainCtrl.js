@@ -25,6 +25,7 @@ angular.module('app.main.MainCtrl', ['app.main.MainServ'])
 
       $scope.chartConfig0.title.text = charts[0].name;
       $scope.chartConfig0.yAxis.plotLines[0].value = charts[0].pass_score;
+      $scope.chartConfig0.yAxis.plotLines[0].label.text = 'เกณฑ์มาตรฐาน ' + charts[0].pass_score + '%';
 
       angular.forEach (charts[0].data, function (v) {
         var score = 0;
@@ -37,6 +38,7 @@ angular.module('app.main.MainCtrl', ['app.main.MainServ'])
 
       $scope.chartConfig1.title.text = charts[1].name;
       $scope.chartConfig1.yAxis.plotLines[0].value = charts[1].pass_score;
+      $scope.chartConfig1.yAxis.plotLines[0].label.text = 'เกณฑ์มาตรฐาน ' + charts[1].pass_score + '%';
 
       angular.forEach (charts[1].data, function (v) {
         var score = 0;
@@ -147,7 +149,7 @@ angular.module('app.main.MainCtrl', ['app.main.MainServ'])
           dashStyle: 'longdashdot',
           width: 1,
           label: {
-            text: 'เกณฑ์มาตรฐาน: 90%',
+            text: 'เกณฑ์มาตรฐาน: xx%',
             align: 'center',
             style: {
               color: 'gray'
@@ -189,7 +191,7 @@ angular.module('app.main.MainCtrl', ['app.main.MainServ'])
           dashStyle: 'longdashdot',
           width: 1,
           label: {
-            text: 'เกณฑ์มาตรฐาน: 90%',
+            text: 'เกณฑ์มาตรฐาน: xx%',
             align: 'center',
             style: {
               color: 'gray'
