@@ -3,6 +3,10 @@ extends ./layouts/Admin
 block scripts
   script(src="/javascripts/admin/MainCtrl.js")
   script(src="/javascripts/admin/MainServ.js")
+  script(src="/javascripts/admin/CategoriesCtrl.js")
+  script(src="/javascripts/admin/CategoriesServ.js")
+  script(src="/javascripts/admin/UserCtrl.js")
+  script(src="/javascripts/admin/UserServ.js")
 
 block content
 
@@ -19,21 +23,21 @@ block content
               i.icon.icon--s.icon--blue.icon--flat.mdi.mdi-desktop-mac
 
             .list-row__content
-              h3: span.display-block รายการตัวชี้วัด
+              h3: a(ui-sref="main").display-block รายการตัวชี้วัด
               span.display-block.fs-body-1.tc-black-2 จัดการข้อมูลตัวชี้วัด
           li.list-row.list-row--has-separator
             .list-row__primary
               i.icon.icon--s.icon--green.icon--flat.mdi.mdi-folder-multiple
 
             .list-row__content
-              h3: span.display-block หมวดหมู่ตัวชี้วัด
+              h3: a(ui-sref="categories").display-block หมวดหมู่ตัวชี้วัด
               span.display-block.fs-body-1.tc-black-2 จัดการหมวดหมู่ตัวชี้วัด
           li.list-row.list-row--has-separator
             .list-row__primary
-              i.icon.icon--s.icon--red.icon--flat.mdi.mdi-account-multiple-plus
+              i.icon.icon--s.icon--orange.icon--flat.mdi.mdi-account-multiple
 
             .list-row__content
-              h3: span.display-block ข้อมูลผู้ใช้งาน
+              h3: a(ui-sref="users").display-block ข้อมูลผู้ใช้งาน
               span.display-block.fs-body-1.tc-black-2 จัดการข้อมูลผู้ใช้งานในระบบ
 
     div(flex-item="9")

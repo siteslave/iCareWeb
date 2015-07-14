@@ -1,0 +1,87 @@
+//- Main page
+div(flex-container="row")
+  div(flex-item)
+    #progress
+
+div(flex-container="row", flex-gutter="8")
+  div(flex-item)
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+            span.tc-black-2.fs-title รายการตัวชี้วัด ({{ items.length | number }})
+          .data-table-header__actions
+            lx-search-filter(model='query', filter-width='100%', placeholder="ค้นหาข้อมูลตัวชี้วัด...")
+        table.data-table
+          thead
+            tr.data-table__selectable-row
+              th
+              th(width="10%") รหัส
+              th(width="50%") ตัวชี้วัด
+              th(width="15%") เป้าหมาย
+              th(width="15%") ผลงาน
+              th(width="10%") #
+          tbody
+            tr(ng-if="items.length == 0")
+              td(colspan="7")
+                span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...
+            tr(ng-repeat="item in items | filter: query", ng-if="items.length > 0")
+              td(ng-if="(item.result * 100 / item.target) >= item.pass_score")
+                i.icon.icon--s.icon--green.icon--flat.mdi.mdi-crosshairs-gps
+              td(ng-if="(item.result * 100 / item.target) < item.pass_score || !item.result || !item.target")
+                i.icon.icon--s.icon--red.icon--flat.mdi.mdi-crosshairs
+              td(width="10%")
+                span {{ item.number_id }}
+              td(width="50%")
+                span {{ item.item_name }}
+              td(width="10%")
+                span {{ item.pass_score | number }}
+              td(width="10%")
+                span {{ (item.result * 100 / item.target) | number: 2 }}
+              td(width="10%")
+                lx-dropdown(position='right', from-top='')
+                  button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
+                    i.mdi.mdi-dots-vertical
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a(ng-click="report(item.number_id, item.item_name, item.target, item.result)").dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-plus-network
+                          span บันทึกผลงาน (ปริมาณ)
+                      li
+                        a(ng-click="detail(item.number_id)").dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-pencil
+                          span ดูรายละเอียด
+
+
+lx-dialog.dialog.dialog--l#mdlReport
+  .dialog__header
+    .toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title บันทึกข้อมูลตัวชี้วัด
+      .toolbar__right
+        button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+  .dialog__content(class="p+")
+    form(name="frmResult")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="2")
+          lx-text-field(label="รหัส")
+            input(type="text", ng-model="kpi.kpi_id", ng-required="true", ng-disabled="true")
+        div(flex-item="10")
+          lx-text-field(label="ชื่อตัวชี้วัด")
+            input(type="text", ng-model="kpi.item_name", ng-required="true", ng-disabled="true")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="4")
+          lx-text-field(label="เป้าหมาย (ปริมาณ)")
+            input(type="number", ng-model="kpi.target", ng-required="true")
+        div(flex-item="4")
+          lx-text-field(label="ผลงาน (ปริมาณ)")
+            input(type="number", ng-model="kpi.result", ng-required="true")
+        div(flex-item="4")
+          lx-date-picker(model="kpi.date", label="วันที่ตัดยอด", locale="th", allow-clear="false", ng-required="true")
+
+  .dialog__actions
+    button.btn.btn--l.btn--green.btn--raised(lx-ripple, ng-click="save()", ng-disabled="frmResult.$invalid") บันทึก
+    | &nbsp;
+    button.btn.btn--l.btn--grey.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง

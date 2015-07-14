@@ -4,7 +4,7 @@ div(flex-container="row")
     #progress
 
 .fab.button-fab
-  button.fab__primary.btn.btn--xl.btn--red.btn--fab(ng-click="showMe()", lx-ripple, lx-tooltip="เพิ่มตัวชี้วัด", tooltip-position="left")
+  button.fab__primary.btn.btn--xl.btn--red.btn--fab(ng-click="newItem()", lx-ripple, lx-tooltip="เพิ่มตัวชี้วัด", tooltip-position="left")
     i.mdi.mdi-plus
     i.mdi.mdi-open-in-new
   //
@@ -38,19 +38,22 @@ div(flex-container="row", flex-gutter="8")
                 span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...
             tr(ng-repeat="item in items | filter: query", ng-if="items.length > 0")
               td(ng-if="item.item_status == 'Y'")
-                i.icon.icon--s.icon--green.icon--flat.mdi.mdi-checkbox-marked-outline
+                i.icon.icon--xs.icon--green.icon--flat.mdi.mdi-checkbox-blank-circle
               td(ng-if="item.item_status == 'N' || !item.item_status")
-                i.icon.icon--s.icon--grey.icon--flat.mdi.mdi-checkbox-blank-outline
+                i.icon.icon--xs.icon--red.icon--flat.mdi.mdi-checkbox-blank-circle
               td(width="10%")
                 span {{ item.number_id }}
               td(width="50%")
                 span {{ item.item_name }}
               td(width="10%")
-                span {{ item.moph }}
+                i(ng-if="item.moph == 'Y'").icon.icon--xs.icon--green.icon--flat.mdi.mdi-check
+                i(ng-if="item.moph == 'N' || !item.moph").icon.icon--xs.icon--grey.icon--flat.mdi.mdi-checkbox-blank-outline
               td(width="10%")
-                span {{ item.region }}
+                i(ng-if="item.region == 'Y'").icon.icon--xs.icon--green.icon--flat.mdi.mdi-check
+                i(ng-if="item.region == 'N' || !item.region").icon.icon--xs.icon--grey.icon--flat.mdi.mdi-checkbox-blank-outline
               td(width="10%")
-                span {{ item.province }}
+                i(ng-if="item.province == 'Y'").icon.icon--xs.icon--green.icon--flat.mdi.mdi-check
+                i(ng-if="item.province == 'N' || !item.province").icon.icon--xs.icon--grey.icon--flat.mdi.mdi-checkbox-blank-outline
               td(width="10%")
                 lx-dropdown(position='right', from-top='')
                   button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
@@ -58,10 +61,72 @@ div(flex-container="row", flex-gutter="8")
                   lx-dropdown-menu
                     ul
                       li
-                        a.dropdown-link.dropdown-link--is-large
+                        a(ng-click="edit(item.number_id)").dropdown-link
                           i.mdi.mdi-pencil
                           span แก้ไข/ดูรายละเอียด
                       li
-                        a.dropdown-link.dropdown-link--is-large
+                        a(ng-click="remove(item.number_id, item.item_name)").dropdown-link
                           i.mdi.mdi-close
                           span ลบรายการ
+lx-dialog.dialog.dialog--l#mdlNewItem
+    .dialog__header
+        .toolbar.bgc-indigo-500(class="pl++")
+            span.toolbar__label.tc-white.fs-title ข้อมูลตัวชี้วัด
+            
+            .toolbar__right
+                button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+                    i.mdi.mdi-close
+    .dialog__content(class="p+")
+        form(name="frmNewKpi")
+            div(flex-container="row", flex-gutter="24")
+                div(flex-item="2")
+                    lx-text-field(label="รหัส")
+                        input(type="text", ng-model="kpi.number_id", ng-required="true", ng-disabled="isUpdate")
+                div(flex-item="8")
+                    lx-text-field(label="ชื่อตัวชี้วัด")
+                        input(type="text", ng-model="kpi.item_name", ng-required="true")
+                div(flex-item="2")
+                    lx-text-field(label="% ผ่าน")
+                        input(type="number", ng-model="kpi.pass_score", ng-required="true")  
+            div(flex-container="row", flex-gutter="24")
+                div(flex-item="6")
+                    lx-select(ng-model="kpi.selectedCategory", ng-required="true", change="setCategory(data)", placeholder="เลือกกลุ่มตัวชี้วัด...", choices="categories", floating-label)
+                        lx-select-selected {{ $selected.category_name }}
+                        lx-select-choices {{ $choice.category_name }}
+                div(flex-item="2")
+                    div(class="checkbox mt+")
+                        br
+                        input(type="checkbox", ng-model="kpi.moph")#chkKpiMoph.checkbox__input
+                        label(for="chkKpiMoph").checkbox__label กระทรวง
+                div(flex-item="2")
+                    div(class="checkbox mt+")
+                        br
+                        input(type="checkbox", ng-model="kpi.region")#chkKpiRegion.checkbox__input
+                        label(for="chkKpiRegion").checkbox__label เขต
+                div(flex-item="2")
+                    div(class="checkbox mt+")
+                        br
+                        input(type="checkbox", ng-model="kpi.province")#chkKpiProvince.checkbox__input
+                        label(for="chkKpiProvince").checkbox__label จังหวัด
+            div(flex-container="row", flex-gutter="24")       
+                
+                div(flex-item="3")
+                    div(class="switch mt+")
+                        input(type="checkbox", ng-model="kpi.item_status").switch__input#swStatus
+                        label(for="swStatus").switch__label เปิดใช้งาน
+                        span.switch__help เปิดใช้งานตัวชี้วัดนี้
+                div(flex-item="3")
+                    div(class="switch mt+")
+                        input(type="checkbox", ng-model="kpi.item_type").switch__input#swType
+                        label(for="swType").switch__label ข้อมูลจาก 43 แฟ้ม
+                        span.switch__help ผลงานได้จาก 43 แฟ้ม  
+                div(flex-item="3")
+                    div(class="switch mt+")
+                        input(type="checkbox", ng-model="kpi.chart_front").switch__input#swGraph
+                        label(for="swGraph").switch__label แสดงกราฟด้านหน้า
+                        span.switch__help แสดงกราฟด้านหน้าเพจ 
+                
+    .dialog__actions
+        button.btn.btn--l.btn--green.btn--raised(lx-ripple, ng-click="save()", ng-disabled="frmNewKpi.$invalid") บันทึก
+        | &nbsp;
+        button.btn.btn--l.btn--grey.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง        

@@ -6,12 +6,12 @@ div.padding-bottom-8
 div(flex-container="row", flex-gutter="8", class="padding-bottom-8")
   //div(flex-item="8")
   //  highchart(config='chartConfig3', style="height: 300px;")
-  div(flex-item="4")
+  div(flex-item="6")
     highchart(config='chartConfig0', style="height: 250px;")
-  div(flex-item="4")
-    highchart(config='chartConfig0', style="height: 250px;")
-  div(flex-item="4")
-    highchart(config='chartConfig0', style="height: 250px;")
+  div(flex-item="6")
+    highchart(config='chartConfig1', style="height: 250px;")
+  //div(flex-item="4")
+  //  highchart(config='chartConfig2', style="height: 250px;")
   //div(flex-item="4")
   //  highchart(config='chartConfig1', style="height: 450px;")
 div(flex-container="row", class="padding-bottom-8")
@@ -82,10 +82,12 @@ div(flex-container="row", flex-gutter="8")
                   lx-dropdown-menu
                     ul
                       li
-                        a.dropdown-link.dropdown-link--is-large
+                        a(href="#/report-province/{{item.number_id}}").dropdown-link.dropdown-link--is-large
                           i.mdi.mdi-printer
                           span ข้อมูลรายจังหวัด
-                      li(ng-if="item.item_type == '1'")
+                      li.dropdown-divider
+                      li
                         a.dropdown-link.dropdown-link--is-large
-                          i.mdi.mdi-map
-                          span ข้อมูลรายหน่วยบริการ
+                          i.mdi.mdi-pencil
+                          span ดูรายละเอียด
+

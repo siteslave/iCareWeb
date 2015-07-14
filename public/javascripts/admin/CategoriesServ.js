@@ -1,32 +1,14 @@
 // Main service
 
-angular.module('app.admin.MainServ', [])
-  .factory('MainServ', function ($q, $http) {
+angular.module('app.admin.CategoriesServ', [])
+  .factory('CategoriesServ', function ($q, $http) {
 
     return {
 
-      getBase: function () {
+      list: function () {
         var q = $q.defer();
 
-        $http.get('/api/base')
-          .success(function (data) {
-            if (data.ok) {
-              q.resolve(data.data);
-            } else {
-              q.reject(data.msg);
-            }
-          })
-          .error(function (data, status) {
-            q.reject(status);
-          });
-
-        return q.promise;
-      },
-
-      getKpi: function () {
-        var q = $q.defer();
-
-        $http.get('/admin/kpis')
+        $http.get('/admin/categories')
           .success(function (data) {
             if (data.ok) {
               q.resolve(data.rows);
@@ -41,28 +23,10 @@ angular.module('app.admin.MainServ', [])
         return q.promise;
       },
 
-      getKpiDetail: function (id) {
+      save: function (name) {
         var q = $q.defer();
 
-        $http.post('/admin/kpis/detail', {id: id})
-          .success(function (data) {
-            if (data.ok) {
-              q.resolve(data.rows);
-            } else {
-              q.reject(data.msg);
-            }
-          })
-          .error(function (data, status) {
-            q.reject(status);
-          });
-
-        return q.promise;
-      },
-
-      save: function (data) {
-        var q = $q.defer();
-
-        $http.post('/admin/kpis', {data: data})
+        $http.post('/admin/categories', {name: name})
           .success(function (data) {
             if (data.ok) {
               q.resolve();
@@ -77,10 +41,10 @@ angular.module('app.admin.MainServ', [])
         return q.promise;
       },
 
-      update: function (data) {
+      update: function (id, name) {
         var q = $q.defer();
 
-        $http.put('/admin/kpis', {data: data})
+        $http.put('/admin/categories', {id: id, name: name})
           .success(function (data) {
             if (data.ok) {
               q.resolve();
@@ -98,7 +62,7 @@ angular.module('app.admin.MainServ', [])
       remove: function (id) {
         var q = $q.defer();
 
-        $http.delete('/admin/kpis/' + id)
+        $http.delete('/admin/categories/' + id)
           .success(function (data) {
             if (data.ok) {
               q.resolve();

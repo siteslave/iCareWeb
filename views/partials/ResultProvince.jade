@@ -1,0 +1,87 @@
+//- Main page
+div(flex-container="row")
+  div(flex-item)
+    #progress
+div.padding-bottom-8
+
+div(flex-container="row", flex-gutter="8")
+  div(flex-item)
+    div(class="card p+")
+      div(flex-container="row", flex-gutter="8")
+        div(flex-item="2")
+          lx-text-field(label="รหัส")
+            input(type="text", ng-model="kpi.number_id", ng-disabled="true")
+        div(flex-item="7")
+          lx-text-field(label="รายการตัวชี้วัด")
+            input(type="text", ng-model="kpi.item_name", ng-disabled="true")
+        div(flex-item="1")
+          lx-text-field(label="ผ่านเกณฑ์ (%)")
+            input(type="text", ng-model="kpi.pass_score", ng-disabled="true")
+        div(flex-item="2")
+          br
+          div(style="text-align: right;")
+            button.btn.btn--l.btn--grey.btn--icon(lx-ripple, lx-tooltip="รายละเอียดตัวชี้วัด", tooltip-position="left")
+              i.mdi.mdi-help-circle
+            a(ui-sref="main").btn.btn--l.btn--grey.btn--icon(lx-ripple, lx-tooltip="กลับหน้าหลัก", tooltip-position="left")
+              i.mdi.mdi-home
+div.padding-bottom-8
+div(flex-container="row", flex-gutter="8", class="padding-bottom-8")
+  div(flex-item="6")
+    highchart(config='chartConfig', style="height: 365px;").card
+  div(flex-item="6")
+    div(class="card p+", style="height: 365px;")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+            span.tc-black-2.fs-title {{ kpi.item_name }}
+        table.data-table
+          thead
+            tr.data-table__selectable-row
+              th
+              th(width="10%") รหัส
+              th(width="75%") จังหวัด
+              th(width="15%") ผลงาน (%)
+              //th(width="15%") #
+          tbody
+            tr(ng-if="items.length == 0")
+              td(colspan="4")
+                span.fs-title.tc-grey-500 ไม่พบข้อมูล...
+            tr(ng-repeat="item in items", ng-if="items.length > 0")
+              td(ng-if="(item.result * 100 / item.target) >= kpi.pass_score")
+                i.icon.icon--s.icon--green.icon--flat.mdi.mdi-crosshairs-gps
+              td(ng-if="(item.result * 100 / item.target) < kpi.pass_score || !item.result || !item.target")
+                i.icon.icon--s.icon--red.icon--flat.mdi.mdi-crosshairs
+              td(width="10%")
+                span {{ item.prov_code }}
+              td(width="74%")
+                span {{ item.prov_name }}
+              td(width="15%")
+                span {{ (item.result * 100 / item.target) | number: 2 }}
+//              td(width="15%")
+//                button.btn.btn--l.btn--grey.btn--icon(ng-click="showSubReport(item.prov_name, item.prov_code, kpi.number_id)", lx-ripple, lx-tooltip="ดูข้อมูลรายหน่วยบริการ",
+//                tooltip-position="left", ng-show="kpi.item_type == '1'")
+//                  i.mdi.mdi-desktop-mac
+////
+//div(flex-container="row", flex-gutter="8", ng-show="isShowSubReport")
+//  div(flex-item="6")
+//    highchart(config='chartConfig1', style="height: 325px;").card
+//
+//  div(flex-item="6")
+//    div(class="card p+")
+//      .data-table-container
+//        header.data-table-header
+//          .data-table-header__label
+//            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+//            span.tc-black-2.fs-title รายชื่อหน่วยบริการในเครือข่าย {{txtProvince}}
+//        table.data-table
+//          thead
+//            tr.data-table__selectable-row
+//              th
+//              th(width="10%") รหัส
+//              th(width="50%") ชื่อหน่วยบริการ
+//              th(width="15%") ผลงาน (%)
+//          tbody
+//            tr(ng-if="items.length == 0")
+//              td(colspan="7")
+//                span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...

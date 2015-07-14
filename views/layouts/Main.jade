@@ -22,36 +22,36 @@ html(ng-app="app")
   body
     .toolbar.bgc-indigo-500
       .toolbar__left(class="mr+++")
-        a(href="/").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="หน้าหลัก", tooltip-position="right")
+        a(ui-sref="main").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="หน้าหลัก", tooltip-position="right")
           i.mdi.mdi-windows
       span.toolbar__label.tc-white.fs-title KPI Cockpit
       .toolbar__right
-        lx-search-filter(closed, theme="dark", position="right",
-        placeholder="ค้นหา...",
-        lx-tooltip="ค้นหา KPI",
-        tooltip-position="bottom")
+        //lx-search-filter(closed, theme="dark", position="right",
+        //placeholder="ค้นหา...",
+        //lx-tooltip="ค้นหา KPI",
+        //tooltip-position="bottom")
 
-        button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="ออกจากระบบ", tooltip-position="bottom")
-          i.mdi.mdi-launch
-        lx-dropdown(position="right", from-top)
-          button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dropdown-toggle,
-          lx-tooltip="ตั้งค่าการใช้งาน",
-          tooltip-position="left")
-            i.mdi.mdi-settings
-          lx-dropdown-menu
-            ul
-              li
-                span.dropdown-link.dropdown-link--is-header Tools
-              li
-                a(ui-sref="main.upload").dropdown-link อัปโหลดไฟล์
-              li
-                span.dropdown-link.dropdown-link--is-header ตัังค่าระบบ
-              li
-                a.dropdown-link ข้อมูลส่วนตัว
-              li
-                a.dropdown-link เปลี่ยนรหัสผ่าน
-              li.dropdown-divider
-              li
-                a.dropdown-link ตั้งค่าเขตรับผิดชอบ
+        a(href="/login").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="เข้าสู่ระบบ", tooltip-position="bottom")
+          i.mdi.mdi-login
+        //lx-dropdown(position="right", from-top)
+        //  button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dropdown-toggle,
+        //  lx-tooltip="ตั้งค่าการใช้งาน",
+        //  tooltip-position="left")
+        //    i.mdi.mdi-settings
+        //  lx-dropdown-menu
+        //    ul
+        //      li
+        //        span.dropdown-link.dropdown-link--is-header Tools
+        //      li
+        //        a(ui-sref="main.upload").dropdown-link อัปโหลดไฟล์
+        //      li
+        //        span.dropdown-link.dropdown-link--is-header ตัังค่าระบบ
+        //      li
+        //        a.dropdown-link ข้อมูลส่วนตัว
+        //      li
+        //        a.dropdown-link เปลี่ยนรหัสผ่าน
+        //      li.dropdown-divider
+        //      li
+        //        a.dropdown-link ตั้งค่าเขตรับผิดชอบ
     .container
       block content

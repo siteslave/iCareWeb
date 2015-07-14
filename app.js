@@ -4,13 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var session = require('express-session')
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var partials = require('./routes/partials');
 var admin = require('./routes/admin');
 var users = require('./routes/users');
 var api = require('./routes/api');
+//var login = require('./routes/login');
 
 var app = express();
 
@@ -60,7 +61,7 @@ var checkAdmin = function (req, res, next) {
   if (req.session.isAdmin) {
     next();
   } else {
-    res.redirect('/denied');
+    res.redirect('/login');
   }
 };
 
@@ -73,7 +74,7 @@ app.use(function (req, res, next) {
 app.use('/api', api);
 app.use('/partials', partials);
 app.use('/users', auth, users);
-app.use('/admin', admin);
+app.use('/admin', checkAdmin, admin);
 app.use('/', routes);
 
 module.exports = app;

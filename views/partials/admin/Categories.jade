@@ -1,0 +1,70 @@
+//- Main page
+div(flex-container="row")
+  div(flex-item)
+    #progress
+
+.fab.button-fab
+  button.fab__primary.btn.btn--xl.btn--red.btn--fab(ng-click="showNew()", lx-ripple, lx-tooltip="เพิ่มหมวดหมู่", tooltip-position="left")
+    i.mdi.mdi-plus
+    i.mdi.mdi-open-in-new
+
+div(flex-container="row", flex-gutter="8")
+  div(flex-item)
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+            span.tc-black-2.fs-title จำนวนหมวดหมู่ ({{ items.length | number }})
+          .data-table-header__actions
+            lx-search-filter(model='query', filter-width='100%', placeholder="ค้นหาหมวดหมู่...")
+        table.data-table
+          thead
+            tr.data-table__selectable-row
+              th
+              th(width="10%") ลำดับ
+              th(width="80%") หมวดหมู่
+              th(width="10%") #
+          tbody
+            tr(ng-if="items.length == 0")
+              td(colspan="4")
+                span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...
+            tr(ng-repeat="item in items | filter: query", ng-if="items.length > 0")
+              td
+              td(width="10%")
+                span {{ $index + 1 }}
+              td(width="80%")
+                span {{ item.category_name }}
+              td(width="10%")
+                lx-dropdown(position='right', from-top='')
+                  button.btn.btn--l.btn--grey.btn--icon(lx-ripple='', lx-dropdown-toggle='')
+                    i.mdi.mdi-dots-vertical
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a(ng-click="edit(item.id, item.category_name)").dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-pencil
+                          span แก้ไข
+                      li
+                        a(ng-click="remove(item.id, item.category_name)").dropdown-link.dropdown-link--is-large
+                          i.mdi.mdi-close
+                          span ลบรายการ
+lx-dialog.dialog.dialog--l#mdlNewItem
+    .dialog__header
+        .toolbar.bgc-indigo-500(class="pl++")
+            span.toolbar__label.tc-white.fs-title หมวดหมู่
+            
+            .toolbar__right
+                button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+                    i.mdi.mdi-close
+    .dialog__content(class="p+")
+        form(name="frmNew")
+            div(flex-container="row", flex-gutter="24")
+                div(flex-item="12")
+                    lx-text-field(label="ชื่อหมวดหมู่")
+                        input(type="text", ng-model="category.name", ng-required="true")
+                
+    .dialog__actions
+        button.btn.btn--l.btn--green.btn--raised(lx-ripple, ng-click="save()", ng-disabled="frmNew.$invalid") บันทึก
+        | &nbsp;
+        button.btn.btn--l.btn--grey.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง        

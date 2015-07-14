@@ -9,8 +9,7 @@ html(ng-app="app")
     script(src="/vendor/angular-ui-router/release/angular-ui-router.min.js")
     script(src="/vendor/lodash/lodash.min.js")
     script(src="/vendor/lumx/dist/lumx.js")
-    script(src="/javascripts/admin/AdminApp.js")
-    script(src="/javascripts/common/filters.js")
+    script(src="/javascripts/users/UserApp.js")
     block scripts
 
     link(rel="stylesheet", href="/vendor/lumx/dist/lumx.css")
@@ -21,9 +20,9 @@ html(ng-app="app")
       .toolbar__left(class="mr+++")
         a(ui-sref="main").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="หน้าหลัก", tooltip-position="right")
           i.mdi.mdi-windows
-      span.toolbar__label.tc-white.fs-title KPI Cockpit (Admin)
+      span.toolbar__label.tc-white.fs-title KPI Cockpit (User)
       .toolbar__right
-        span.tc-white.fs-title #{fullname}
+        span.tc-white.fs-title #{fullname} - #{prov_name} [#{prov_code}]
         a(href="/logout").btn.btn--l.btn--white.btn--icon(lx-ripple, lx-tooltip="ออกจากระบบ", tooltip-position="bottom")
           i.mdi.mdi-launch
 

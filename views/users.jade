@@ -1,0 +1,11 @@
+extends ./layouts/Users
+
+block scripts
+  script(src="/javascripts/users/MainCtrl.js")
+  script(src="/javascripts/users/MainServ.js")
+
+block content
+
+  div(flex-container="row", flex-gutter="8")
+    div(flex-item="12")
+      ui-view

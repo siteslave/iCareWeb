@@ -42,3 +42,8 @@ body {
   right: 5px;
   z-index: 30;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}

@@ -7,6 +7,7 @@ exports.getList = function (db) {
 
   db('provinces')
     .select()
+    .where('prov_area', '7')
     .then(function (rows) {
       q.resolve(rows);
     })

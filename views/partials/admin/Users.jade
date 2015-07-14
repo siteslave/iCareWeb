@@ -1,0 +1,143 @@
+//- User page
+div(flex-container="row")
+  div(flex-item)
+    #progress
+
+.fab.button-fab
+  button.fab__primary.btn.btn--xl.btn--red.btn--fab(ng-click="showNew()", lx-ripple, lx-tooltip="เพิ่มผู้ใช้งาน", tooltip-position="left")
+    i.mdi.mdi-plus
+    i.mdi.mdi-open-in-new
+
+div(flex-container="row", flex-gutter="8")
+  div(flex-item)
+    div(class="card p+")
+      .data-table-container
+        header.data-table-header
+          .data-table-header__label
+            i.icon.icon--m.icon--grey.icon--flat.mdi.mdi-content-paste
+            span.tc-black-2.fs-title ผู้ใช้งานระบบ ({{ users.length | number }})
+          .data-table-header__actions
+            lx-search-filter(model='query', filter-width='100%', placeholder="ค้นหาผู้ใช้งาน...")
+        table.data-table
+          thead
+            tr.data-table__selectable-row
+              th
+              th(width="10%") ลำดับ
+              th(width="10%") ชื่อผู้ใช้งาน
+              th(width="30%") ชื่อ - สกุล
+              th(width="20%") ประเภท
+              th(width="20%") จังหวัด
+              th(width="10%") #
+          tbody
+            tr(ng-if="users.length == 0")
+              td(colspan="4")
+                span.fs-title.tc-grey-500 ไม่พบข้อมูลตัวชี้วัด...
+            tr(ng-repeat="u in users | filter: query", ng-if="users.length > 0")
+              td(ng-if="u.is_active == 'Y'")
+                i.icon.icon--xs.icon--green.icon--flat.mdi.mdi-checkbox-blank-circle
+              td(ng-if="u.is_active == 'N' || !u.is_active")
+                i.icon.icon--xs.icon--red.icon--flat.mdi.mdi-checkbox-blank-circle
+              td(width="10%")
+                span {{ $index + 1 }}
+              td(width="10%")
+                span {{ u.username }}
+              td(width="30%")
+                span {{ u.fullname }}
+              td(width="20%")
+                span {{ u.user_type_name }}
+              td(width="20%")
+                span {{ u.prov_name }}
+              td(width="10%")
+                lx-dropdown(position='right', from-top='')
+                  button.btn.btn--l.btn--grey.btn--icon(lx-ripple, lx-dropdown-toggle)
+                    i.mdi.mdi-dots-vertical
+                  lx-dropdown-menu
+                    ul
+                      li
+                        a(ng-click="edit(u.username, u.fullname, u.is_active, u.user_type, u.user_type_name, u.province, u.prov_name)").dropdown-link
+                          i.mdi.mdi-pencil
+                          span แก้ไข
+                      li
+                        a(ng-click="remove(u.username, u.fullname)").dropdown-link
+                          i.mdi.mdi-close
+                          span ลบรายการ
+                      li
+                        a(ng-click="showChangePassword(u.username)").dropdown-link
+                          i.mdi.mdi-account-key
+                          span เปลี่ยนรหัสผ่าน
+
+lx-dialog.dialog.dialog--l#mdlNewItem
+  .dialog__header
+    .toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title เพิ่ม/แก้ไขผู้ใช้งาน
+
+      .toolbar__right
+        button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+  .dialog__content(class="p+")
+    form(name="frmNew")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="4")
+          lx-text-field(label="ชื่อผู้ใช้งาน")
+            input(type="text", ng-model="user.username", ng-required="true", ng-disabled="isUpdate")
+        div(flex-item="8")
+          lx-text-field(label="ชื่อ - สกุล")
+            input(type="text", ng-model="user.fullname", ng-required="true")
+      div(flex-container="row", flex-gutter="24", ng-hide="isUpdate")
+        div(flex-item="6")
+          lx-text-field(label="รหัสผ่าน")
+            input(type="password", ng-model="user.password", ng-required="false")
+        div(flex-item="6")
+          lx-text-field(label="รหัสผ่าน (อีกครั้ง)")
+            input(type="password", ng-model="user.password2", ng-required="false")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="6")
+          lx-select(ng-model="user.selectedType", ng-required="true", change="setData.setType(data)",
+          placeholder="ประเภทผู้ใช้งาน...", choices="types", floating-label)
+            lx-select-selected {{ $selected.user_type_name }}
+            lx-select-choices {{ $choice.user_type_name }}
+        div(flex-item="6")
+          lx-select(ng-model="user.selectedProvince", ng-required="true", change="setData.setProvince(data)",
+          placeholder="เลือกจังหวัด...", choices="provinces", floating-label)
+            lx-select-selected {{ $selected.prov_name }}
+            lx-select-choices {{ $choice.prov_name }}
+
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="3")
+          div(class="switch mt+")
+            input(type="checkbox", ng-model="user.is_active").switch__input#swStatus
+            label(for="swStatus").switch__label เปิดใช้งาน
+            span.switch__help เปิดใช้งานผู้ใช้งานนี้
+
+  .dialog__actions
+    button.btn.btn--l.btn--green.btn--raised(lx-ripple, ng-click="save()", ng-disabled="frmNew.$invalid") บันทึก
+    | &nbsp;
+    button.btn.btn--l.btn--grey.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง
+
+lx-dialog.dialog.dialog--l#mdlChangePassword
+  .dialog__header
+    .toolbar.bgc-indigo-500(class="pl++")
+      span.toolbar__label.tc-white.fs-title เปลี่ยนรหัสผ่าน
+
+      .toolbar__right
+        button.btn.btn--l.btn--white.btn--icon(lx-ripple, lx-dialog-close)
+          i.mdi.mdi-close
+  .dialog__content(class="p+")
+    form(name="frmChangePass")
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="4")
+          lx-text-field(label="ชื่อผู้ใช้งาน")
+            input(type="text", ng-model="changepass.username", ng-required="true", ng-disabled="true")
+
+      div(flex-container="row", flex-gutter="24")
+        div(flex-item="6")
+          lx-text-field(label="รหัสผ่าน")
+            input(type="password", ng-model="changepass.password", ng-required="false")
+        div(flex-item="6")
+          lx-text-field(label="รหัสผ่าน (อีกครั้ง)")
+            input(type="password", ng-model="changepass.password2", ng-required="false")
+
+  .dialog__actions
+    button.btn.btn--l.btn--green.btn--raised(lx-ripple, ng-click="changePassword()", ng-disabled="frmChangePass.$invalid") บันทึก
+    | &nbsp;
+    button.btn.btn--l.btn--grey.btn--raised(lx-ripple, lx-dialog-close) ปิดหน้าต่าง
